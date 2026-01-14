@@ -10,3 +10,5 @@ export { default as PromoBanner } from './PromoBanner/PromoBanner';
 export { default as QualityAssurance } from './QualityAssurance/QualityAssurance';
 export { default as ExclusiveDeals } from './ExclusiveDeals/ExclusiveDeals';
 export { default as CategoryDiscovery } from './CategoryDiscovery/CategoryDiscovery';
+export { default as AccountPage } from './AccountPage/AccountPage';
+export { default as AddressModal } from './AddressModal/AddressModal';
