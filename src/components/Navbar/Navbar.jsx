@@ -3,7 +3,8 @@ import { User, ShoppingCart, ChevronDown, HelpCircle, Mail, Lock, X, Search } fr
 import AccountDropdown from '../AccountDropdown/AccountDropdown';
 import AuthModal from '../AccountDropdown/AuthModal';
 
-const Navbar = ({onNavigate}) => {
+// 1. Added cartCount and onCartClick to props
+const Navbar = ({onNavigate, cartCount, onCartClick}) => {
   const [user, setUser] = useState(null); // Tracks logged in user
   const [isSearchOpen, setIsSearchOpen] = useState(false); // Mobile search toggle
   const [isAccountOpen, setIsAccountOpen] = useState(false);
@@ -112,13 +113,15 @@ const Navbar = ({onNavigate}) => {
                 <span className="text-[10px] font-bold text-[#1e2a4a] mt-0.5">Support</span>
               </div>
 
-              {/* Cart with Badge */}
-              <div className="relative cursor-pointer group flex flex-col items-center">
+              {/* Cart with Badge - 2. Added onClick and dynamically set count */}
+              <div onClick={onCartClick} className="relative cursor-pointer group flex flex-col items-center">
                 <div className="relative">
                   <ShoppingCart size={22} className="text-gray-400 group-hover:text-[#4f46e5]" />
-                  <span className="absolute -top-1.5 -right-1.5 bg-[#D32F2F] text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold border-2 border-white">
-                    0
-                  </span>
+                  {cartCount > 0 && (
+                    <span className="absolute -top-1.5 -right-1.5 bg-[#D32F2F] text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold border-2 border-white">
+                      {cartCount}
+                    </span>
+                  )}
                 </div>
                 <span className="text-[10px] font-bold text-[#1e2a4a] mt-0.5">Cart</span>
               </div>

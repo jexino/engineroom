@@ -4,7 +4,7 @@ import ProductCard from '../ProductCard/ProductCard';
 
 
 
-const CategoryDiscovery = ({ products }) => {
+const CategoryDiscovery = ({ products, onProductClick }) => {
   const [tab, setTab] = useState('structure');
   
   const categories = [
@@ -39,7 +39,7 @@ const CategoryDiscovery = ({ products }) => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-        {products.slice(0, 8).map(p => <ProductCard key={p.id} {...p} />)}
+        {products.slice(0, 8).map(p => <ProductCard key={p.id} {...p}  onViewDetails={() => onProductClick(p)} />)}
       </div>
     </section>
   );

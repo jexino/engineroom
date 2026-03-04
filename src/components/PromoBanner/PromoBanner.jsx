@@ -1,7 +1,7 @@
 import React from 'react';
 import ProductCard from '../ProductCard/ProductCard';
 
-const PromoBanner = ({ product }) => {
+const PromoBanner = ({  product= [], onProductClick }) => {
 
   return (
     <section className="max-w-7xl mx-auto px-6 my-4">
@@ -22,7 +22,7 @@ const PromoBanner = ({ product }) => {
             <div className="w-[300px] transform lg:rotate-2">
               {/* If product exists, show it. If not, show a 'loading' box */}
               {product ? (
-                <ProductCard {...product} isPromo={true} />
+                <ProductCard {...product} onViewDetails={() => onProductClick(product)} isPromo={true} />
               ) : (
                 <div className="w-full h-[400px] bg-white/10 animate-pulse rounded-3xl border border-white/20 flex items-center justify-center">
                    <span className="text-white/20 font-bold italic">Loading Deal...</span>

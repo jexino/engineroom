@@ -1,7 +1,7 @@
 import React from 'react';
 import { Heart, Star } from 'lucide-react';
 
-const ProductCard = ({ title, price, image, rating }) => {
+const ProductCard = ({ title, price, image, rating, onViewDetails }) => {
   const nairaPrice = Math.floor((price || 0) * 1500).toLocaleString();
 
   return (
@@ -23,7 +23,9 @@ const ProductCard = ({ title, price, image, rating }) => {
           <span className="text-lg font-black text-[#1e2a4a]">₦{nairaPrice}</span>
           <span className="bg-[#D32F2F] text-white text-[10px] px-2 py-1 font-black rounded-md">-10%</span>
         </div>
-        <button className="w-full bg-[#5271FF] hover:bg-[#3b33c7] text-white py-3 rounded-xl text-xs font-extrabold transition-all shadow-md">
+        <button 
+        onClick={onViewDetails}
+        className="w-full bg-[#5271FF] hover:bg-[#3b33c7] text-white py-3 rounded-xl text-xs font-extrabold transition-all shadow-md">
           View details
         </button>
       </div>

@@ -12,3 +12,7 @@ export { default as ExclusiveDeals } from './ExclusiveDeals/ExclusiveDeals';
 export { default as CategoryDiscovery } from './CategoryDiscovery/CategoryDiscovery';
 export { default as AccountPage } from './AccountPage/AccountPage';
 export { default as AddressModal } from './AddressModal/AddressModal';
+export { default as ProductDetailPage } from './ProductDetailPage/ProductDetailPage';
+export { default as ShopPage } from './ShopPage/ShopPage';
+export { default as CartSidebar } from './CartSidebar/CartSidebar';
+export {default as CardModal } from './CardModal/CardModal';

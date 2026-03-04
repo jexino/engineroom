@@ -1,12 +1,15 @@
 @import "tailwindcss";
 
-@layer utilities {
-  .no-scrollbar::-webkit-scrollbar { display: none; }
-  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-};
+/* 1. Use @utility instead of @layer utilities for custom classes */
+@utility no-scrollbar {
+  &::-webkit-scrollbar { display: none; }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 
+/* 2. Your theme block is perfectly fine */
 @theme {
-  --color-brand-blue: #5271FF;;
+  --color-brand-blue: #5271FF;
   --color-brand-red: #EF4444;
   --color-light-gray: #F9FAFB;
-};
+}

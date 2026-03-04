@@ -7,23 +7,31 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const [timer, setTimer] = useState(59);
 
-  // SIMULATION: Trigger login on Verify click
-  const handleVerify = () => {
-    // Check if OTP is filled (simulated check)
-    if (otp.join("").length === 6) {
-      // Mock user data based on the provided email
-      const mockUser = {
-        name: email.split('@')[0], // Extract name from email
-        email: email,
-      };
-      
-      onLoginSuccess(mockUser); // Send data to Navbar
-      onClose(); // Close modal
-      setStep(1); // Reset for next time
-    } else {
-      alert("Please enter the 6-digit code");
-    }
-  };
+  // ... inside your AuthModal component
+
+const handleVerify = () => {
+  // 1. Check if all 6 OTP boxes are filled
+  if (otp.join("").length === 6) {
+    
+    // 2. Create the user object. 
+    // We use the email prefix as a temporary name (e.g., 'john' from john@email.com)
+    const mockUser = {
+      name: email.split('@')[0], 
+      email: email,
+    };
+    
+    // 3. IMPORTANT: This calls the function passed from App.js via the Navbar
+    // This updates the global state AND triggers the localStorage save
+    onLoginSuccess(mockUser); 
+
+    // 4. UI Cleanup
+    onClose(); 
+    setStep(1); 
+    setOtp(new Array(6).fill("")); // Clear OTP for security
+  } else {
+    alert("Please enter the 6-digit code");
+  }
+};
 
   // Timer Logic
   useEffect(() => {
