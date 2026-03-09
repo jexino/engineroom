@@ -3,7 +3,7 @@ import { Star, Minus, Plus, Heart, ChevronRight, ChevronDown, CheckCircle } from
 import BestSellers from '../BestSellers/BestSellers';
 import ExclusiveDeals from '../ExclusiveDeals/ExclusiveDeals';
 
-// Added new props: cart, onAddToCart, onToggleWishlist, isInWishlist
+
 const ProductDetailPage = ({ 
   product, 
   onBack, 
@@ -16,8 +16,8 @@ const ProductDetailPage = ({
 }) => {
   const [quantity, setQuantity] = useState(1);
   const [activeImg, setActiveImg] = useState(0);
-  const [showAddedAlert, setShowAddedAlert] = useState(false); // State for cart alert
-  const [showWishlistAlert, setShowWishlistAlert] = useState(false); // 1. NEW STATE for wishlist alert
+  const [showAddedAlert, setShowAddedAlert] = useState(false); 
+  const [showWishlistAlert, setShowWishlistAlert] = useState(false);
 
   // Auto-scroll to top when product changes
   useEffect(() => {
@@ -128,7 +128,7 @@ const ProductDetailPage = ({
             <div className="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-50 relative">
                 {/* --- HEART ICON TOGGLE --- */}
                <button 
-                onClick={handleToggleWishlist} // 4. Updated to use the new handler
+                onClick={handleToggleWishlist} 
                 className={`absolute top-5 right-5 ${isInWishlist ? 'text-red-500' : 'text-gray-400'} hover:text-red-600 transition-colors`}
                >
                 <Heart size={22} fill={isInWishlist ? "currentColor" : "none"} />

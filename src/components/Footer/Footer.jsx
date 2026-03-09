@@ -6,7 +6,7 @@ const Footer = () => {
       {/* 1. GUARANTEE BANNER */}
       <section className="w-full py-8">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="bg-[#4f46e5] text-white rounded-md py-16 px-8 text-center shadow-lg">
+          <div className="bg-[#5271FF] text-white rounded-md py-16 px-8 text-center shadow-lg">
             <h2 className="text-3xl md:text-4xl font-black mb-4">100% Guarantee on Quality Delivery</h2>
             <p className="max-w-2xl mx-auto opacity-90 text-sm md:text-lg">
               Guarantees quality in service, personnel and product delivery with secured 

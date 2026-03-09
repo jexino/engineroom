@@ -1,7 +1,7 @@
 import React from 'react'
 import ProductCard from '../ProductCard/ProductCard';
 
-// Add = [] here too
+
 const ExclusiveDeals = ({ products = [], onProductClick }) => {
   return (
     <section className="w-full bg-gray-50 py-12">

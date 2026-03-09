@@ -1,54 +1,65 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from '../ProductCard/ProductCard';
 import AddressModal from '../AddressModal/AddressModal';
-import CardModal from '../CardModal/CardModal'; // Ensure you create this component
+import CardModal from '../CardModal/CardModal';
 import { User, ShoppingBag, Heart, CreditCard, MapPin, Camera, ChevronDown, Package, Trash2, Home, Plus } from 'lucide-react';
 
-const AccountPage = ({ user, onUpdateUser, onLogout, onProductClick, products = [], wishlist = [], onRemoveFromWishlist, onAddToCart }) => {
+const AccountPage = ({ 
+  user, 
+  onLogout, 
+  onProductClick, 
+  products = [], 
+  wishlist = [], 
+  onRemoveFromWishlist, 
+  onAddToCart 
+}) => {
   const [fullName, setFullName] = useState(user?.name || "");
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
-  const [isCardModalOpen, setIsCardModalOpen] = useState(false); // New state for card modal
+  const [isCardModalOpen, setIsCardModalOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('account');
   const [isOrdersOpen, setIsOrdersOpen] = useState(false);
 
-  // Initialize savedAddresses state from localStorage (or empty array if nothing exists)
+  // --- LOCAL STORAGE DATA ---
   const [savedAddresses, setSavedAddresses] = useState(() => {
     const saved = localStorage.getItem('userAddresses');
     return saved ? JSON.parse(saved) : [];
   });
 
-  // 2. NEW: Initialize savedCards state from localStorage
   const [savedCards, setSavedCards] = useState(() => {
     const saved = localStorage.getItem('userCards');
     return saved ? JSON.parse(saved) : [];
   });
 
-  // Update localStorage whenever the savedAddresses state changes
   useEffect(() => {
     localStorage.setItem('userAddresses', JSON.stringify(savedAddresses));
   }, [savedAddresses]);
 
-  // 3. NEW: Update localStorage whenever the savedCards state changes
   useEffect(() => {
     localStorage.setItem('userCards', JSON.stringify(savedCards));
   }, [savedCards]);
 
-  const handleSaveAddress = (newAddress) => {
-    setSavedAddresses([...savedAddresses, newAddress]);
-    console.log('Saved Address to LocalStorage:', newAddress);
+  // --- HANDLERS ---
+  
+  // Local-only save handler (Does NOT update Nav Bar)
+  const handleLocalProfileUpdate = () => {
+    console.log("Profile changes saved locally for this session:", fullName);
+    alert("Profile preferences updated locally!");
   };
 
-  // 4. NEW: Logic to handle saving a new card, including billing address ID
+  const handleSaveAddress = (newAddress) => {
+    setSavedAddresses([...savedAddresses, newAddress]);
+    setIsAddressModalOpen(false);
+  };
+
   const handleSaveCard = (cardData) => {
     setSavedCards(prev => [...prev, cardData]);
-    console.log('Saved Card to LocalStorage:', cardData);
+    setIsCardModalOpen(false);
   };
 
   const handleDeleteAddress = (indexToDelete) => {
     setSavedAddresses(prev => prev.filter((_, index) => index !== indexToDelete));
   };
 
-  // 5. NEW: Logic to handle deleting a card
   const handleDeleteCard = (indexToDelete) => {
     setSavedCards(prev => prev.filter((_, index) => index !== indexToDelete));
   };
@@ -143,7 +154,7 @@ const AccountPage = ({ user, onUpdateUser, onLogout, onProductClick, products = 
                 </div>
                 <div className="w-full space-y-6">
                   <div className="w-full">
-                    <label className="block text-sm font-medium text-gray-400 mb-2 text-center md:text-left">Full Name</label>
+                    <label className="block text-sm font-medium text-gray-400 mb-2">Full Name</label>
                     <input
                       type="text"
                       value={fullName}
@@ -152,7 +163,7 @@ const AccountPage = ({ user, onUpdateUser, onLogout, onProductClick, products = 
                     />
                   </div>
                   <button
-                    onClick={() => onUpdateUser({ ...user, name: fullName })}
+                    onClick={handleLocalProfileUpdate}
                     className="w-full bg-[#5271FF] text-white py-4 rounded-full font-bold text-lg hover:bg-blue-600 transition-all shadow-lg shadow-blue-100"
                   >
                     Save changes
@@ -194,7 +205,7 @@ const AccountPage = ({ user, onUpdateUser, onLogout, onProductClick, products = 
             </div>
           )}
 
-          {/* Address Book - FIXED LOGIC */}
+          {/* Address Book */}
           {activeSection === 'address' && (
             <div className="w-full">
               <div className="flex justify-between items-center mb-6 border-b border-gray-100 pb-4">
@@ -240,7 +251,6 @@ const AccountPage = ({ user, onUpdateUser, onLogout, onProductClick, products = 
           {activeSection === 'payment' && (
             <div className="w-full">
               {savedCards.length === 0 ? (
-                /* --- ONLY SHOW THIS WHEN NO CARDS EXIST --- */
                 <div className="flex flex-col items-center justify-center text-center py-20 animate-in fade-in duration-300 mx-auto max-w-md">
                   <div className="w-24 h-16 bg-[#7B91FF] rounded-xl relative mb-8 flex items-center px-4">
                     <div className="w-3 h-3 bg-white rounded-full opacity-80" />
@@ -253,14 +263,8 @@ const AccountPage = ({ user, onUpdateUser, onLogout, onProductClick, products = 
                   >
                     <Plus size={20} /> Add a credit or debit card
                   </button>
-                  <div className="flex items-center gap-6 opacity-60">
-                    <img src="/visa.svg" alt="Visa" className="h-4" />
-                    <img src="/mastercard.svg" alt="Mastercard" className="h-6" />
-                    <img src="/verve.svg" alt="Verve" className="h-5" />
-                  </div>
                 </div>
               ) : (
-                /* --- ONLY SHOW THIS (TOP HEADER + LIST) WHEN CARDS ARE ADDED --- */
                 <>
                   <div className="flex justify-between items-center mb-6 border-b border-gray-100 pb-4">
                     <h2 className="text-xl font-bold text-[#1e2a4a]">Payment Method</h2>
@@ -268,26 +272,42 @@ const AccountPage = ({ user, onUpdateUser, onLogout, onProductClick, products = 
                       onClick={() => setIsCardModalOpen(true)}
                       className="bg-[#5271FF] text-white px-4 py-2 rounded-full font-bold flex items-center gap-2 text-sm"
                     >
-                      <span className="text-xl font-light">+</span> Add a new card
+                      <Plus size={16} /> Add a new card
                     </button>
                   </div>
 
                   <div className="space-y-4">
+
                     {savedCards.map((card, index) => (
+
                       <div key={index} className="flex flex-col sm:flex-row items-center justify-between p-4 bg-white rounded-2xl border border-gray-100 shadow-sm gap-4 hover:shadow-md transition-all">
+
                         <div className="flex items-center gap-4 w-full sm:w-auto">
+
                           <img src="/mastercard.svg" alt="Mastercard" className="h-6 object-contain" />
+
                           <div>
+
                             <h4 className="font-bold text-[#1e2a4a]">Master card ending with {card.cardNumber.slice(-4)}</h4>
+
                             {card.isDefault && <span className="bg-blue-50 text-blue-600 text-[10px] font-bold px-1.5 py-0.5 rounded">DEFAULT</span>}
+
                           </div>
+
                         </div>
+
                         <div className="flex gap-4 w-full sm:w-auto justify-end">
+
                           <button className="text-[#5271FF] text-sm font-semibold hover:underline">Edit</button>
+
                           <button onClick={() => handleDeleteCard(index)} className="text-red-500 text-sm font-semibold hover:underline">Remove</button>
+
                         </div>
+
                       </div>
+
                     ))}
+
                   </div>
                 </>
               )}
@@ -306,26 +326,32 @@ const AccountPage = ({ user, onUpdateUser, onLogout, onProductClick, products = 
         </div>
       </div>
 
-       {/* Recommended Section */}
-
+      {/* Recommended Section */}
       <div className="max-w-7xl mx-auto px-4 md:px-6 mt-12">
-
-        <div className="bg-[#FFA000] text-white px-6 py-3 rounded-lg font-bold mb-6">Recommended for you</div>
-
+        <div className="bg-[#FFA000] text-white px-6 py-3 rounded-lg font-bold mb-6 inline-block">Recommended for you</div>
         <div className="bg-white p-6 overflow-x-auto flex gap-6 no-scrollbar rounded-2xl shadow-sm border border-gray-100">
-
           {products.slice(0, 6).map(p => (
-
             <div key={p.id} className="min-w-[250px]"><ProductCard {...p} onViewDetails={() => onProductClick(p)} /></div>
-
           ))}
-
         </div>
-
       </div>
 
-      <AddressModal isOpen={isAddressModalOpen} onClose={() => setIsAddressModalOpen(false)} onSave={handleSaveAddress} />
-      <CardModal isOpen={isCardModalOpen} onClose={() => setIsCardModalOpen(false)} onSave={handleSaveCard} />
+      {isAddressModalOpen && (
+        <AddressModal isOpen={isAddressModalOpen} onClose={() => setIsAddressModalOpen(false)} onSave={handleSaveAddress} />
+      )}
+
+      {isCardModalOpen && (
+        <CardModal 
+          isOpen={isCardModalOpen} 
+          onClose={() => setIsCardModalOpen(false)} 
+          onSave={handleSaveCard}
+          savedAddresses={savedAddresses}
+          onAddNewAddress={() => {
+            setIsCardModalOpen(false);
+            setIsAddressModalOpen(true);
+          }}
+        />
+      )}
     </div>
   );
 };

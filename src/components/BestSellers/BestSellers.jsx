@@ -2,7 +2,7 @@ import React from 'react';
 import ProductCard from '../ProductCard/ProductCard';
 import { Tag } from 'lucide-react';
 
-// Add = [] to the products prop here
+
 const BestSellers = ({ products = [], onProductClick }) => {
   return (
     <section className="py-10 max-w-7xl mx-auto px-6 border-md">

@@ -38,7 +38,7 @@ const App = () => {
       }
       return [...prevCart, { ...product, quantity }];
     });
-    // Removed auto-open here so the user only sees the success alert on the detail page
+  
   };
 
   const removeFromCart = (productId) => {
@@ -160,7 +160,7 @@ const App = () => {
           wishlist={wishlist} // <--- Pass the wishlist array
           onUpdateUser={(updatedUser) => setUser(updatedUser)}
           onLogout={() => { setUser(null); setCurrentView("home"); }}
-          onRemoveFromWishlist={toggleWishlist} // <--- Reuses your toggle logic to remove
+          onRemoveFromWishlist={toggleWishlist} // <--- Allow removing from wishlist
           onAddToCart={addToCart} // <--- Allow adding to cart from wishlist
         />
         </div>

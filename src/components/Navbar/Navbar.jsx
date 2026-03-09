@@ -3,12 +3,12 @@ import { User, ShoppingCart, ChevronDown, HelpCircle, Mail, Lock, X, Search } fr
 import AccountDropdown from '../AccountDropdown/AccountDropdown';
 import AuthModal from '../AccountDropdown/AuthModal';
 
-// 1. Added cartCount and onCartClick to props
+
 const Navbar = ({onNavigate, cartCount, onCartClick}) => {
   const [user, setUser] = useState(null); // Tracks logged in user
   const [isSearchOpen, setIsSearchOpen] = useState(false); // Mobile search toggle
   const [isAccountOpen, setIsAccountOpen] = useState(false);
-  const [isAuthOpen, setIsAuthOpen] = useState(false); // New state
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
 
   const handleLoginSuccess = (userData) => {
     setUser(userData);
